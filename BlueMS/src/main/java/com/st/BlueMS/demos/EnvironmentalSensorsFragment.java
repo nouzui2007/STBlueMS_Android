@@ -396,9 +396,6 @@ public class EnvironmentalSensorsFragment extends DemoFragment {
                 f.addFeatureListener(mHumidityListener);
                 node.enableNotification(f);
             }//for
-
-
-
         }else{
             updateGui(new Runnable() {
                 @Override
@@ -408,22 +405,22 @@ public class EnvironmentalSensorsFragment extends DemoFragment {
             });
         }
 
-        mTemperature = node.getFeatures(FeatureTemperature.class);
-        if(!mTemperature.isEmpty()) {
-            View.OnClickListener forceUpdate = new ForceUpdateFeature(mTemperature);
-            mTemperatureImage.setOnClickListener(forceUpdate);
-            for (Feature f : mTemperature) {
-                f.addFeatureListener(mTemperatureListener);
-                node.enableNotification(f);
-            }//for
-        }else{
-            updateGui(new Runnable() {
-                @Override
-                public void run() {
-                    mTemperatureImage.setImageResource(R.drawable.temperature_missing_icon);
-                }
-            });
-        }
+//        mTemperature = node.getFeatures(FeatureTemperature.class);
+//        if(!mTemperature.isEmpty()) {
+//            View.OnClickListener forceUpdate = new ForceUpdateFeature(mTemperature);
+//            mTemperatureImage.setOnClickListener(forceUpdate);
+//            for (Feature f : mTemperature) {
+//                f.addFeatureListener(mTemperatureListener);
+//                node.enableNotification(f);
+//            }//for
+//        }else{
+//            updateGui(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mTemperatureImage.setImageResource(R.drawable.temperature_missing_icon);
+//                }
+//            });
+//        }
 
         mPressure = node.getFeatures(FeaturePressure.class);
         if(!mPressure.isEmpty()) {
@@ -462,6 +459,30 @@ public class EnvironmentalSensorsFragment extends DemoFragment {
 
     }//enableNeededNotification
 
+
+    @Override
+    protected void enableNeededNotification(List<Node> nodes) {
+
+        for (Node node : nodes) {
+            mTemperature = node.getFeatures(FeatureTemperature.class);
+            if (!mTemperature.isEmpty()) {
+                View.OnClickListener forceUpdate = new ForceUpdateFeature(mTemperature);
+                mTemperatureImage.setOnClickListener(forceUpdate);
+                for (Feature f : mTemperature) {
+                    f.addFeatureListener(mTemperatureListener);
+                    node.enableNotification(f);
+                }//for
+            } else {
+                updateGui(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTemperatureImage.setImageResource(R.drawable.temperature_missing_icon);
+                    }
+                });
+            }
+        }
+        enableNeededNotification(nodes.get(0));
+    }//enableNeededNotification
 
     /**
      * remove the listener and disable the notification

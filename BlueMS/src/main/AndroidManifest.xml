@@ -37,6 +37,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.st.BlueMS">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
@@ -60,6 +61,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".DemoApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/app_logo"
@@ -86,6 +88,15 @@
         </activity>
         <activity
             android:name=".DemosActivity"
+            android:label="@string/title_activity_demos"
+            android:launchMode="singleTop"
+            android:parentActivityName=".NodeListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.st.BlueMS.NodeListActivity" />
+        </activity>
+        <activity
+            android:name=".AccDemosActivity"
             android:label="@string/title_activity_demos"
             android:launchMode="singleTop"
             android:parentActivityName=".NodeListActivity">

@@ -45,20 +45,21 @@ import com.st.BlueMS.demos.AccEvent.AccEventFragment;
 import com.st.BlueMS.demos.ActivityRecognitionFragment;
 import com.st.BlueMS.demos.Audio.Beamforming.BeamformingFragment;
 import com.st.BlueMS.demos.Audio.BlueVoice.BlueVoiceFragment;
+import com.st.BlueMS.demos.Audio.DirOfArrival.SourceLocFragment;
 import com.st.BlueMS.demos.CarryPositionFragment;
 import com.st.BlueMS.demos.Cloud.CloudLogFragment;
-import com.st.BlueMS.demos.memsSensorFusion.CompassFragment;
 import com.st.BlueMS.demos.EnvironmentalSensorsFragment;
 import com.st.BlueMS.demos.HearRateFragment;
 import com.st.BlueMS.demos.MemsGestureRecognitionFragment;
-import com.st.BlueMS.demos.memsSensorFusion.MemsSensorFusionFragment;
 import com.st.BlueMS.demos.MotionIntensityFragment;
 import com.st.BlueMS.demos.NodeStatus.NodeStatusFragment;
+import com.st.BlueMS.demos.AccPlotFeatureFragment;
 import com.st.BlueMS.demos.PedometerFragment;
 import com.st.BlueMS.demos.PlotFeatureFragment;
 import com.st.BlueMS.demos.ProximityGestureRecognitionFragment;
-import com.st.BlueMS.demos.Audio.DirOfArrival.SourceLocFragment;
 import com.st.BlueMS.demos.SwitchFragment;
+import com.st.BlueMS.demos.memsSensorFusion.CompassFragment;
+import com.st.BlueMS.demos.memsSensorFusion.MemsSensorFusionFragment;
 import com.st.BlueSTSDK.Node;
 import com.st.BlueSTSDK.gui.demos.DemoFragment;
 
@@ -70,7 +71,7 @@ import java.util.List;
 /**
  * Activity that display all the demo available for the node
  */
-public class DemosActivity extends com.st.BlueSTSDK.gui.DemosActivity {
+public class AccDemosActivity extends com.st.BlueSTSDK.gui.DemosActivity {
 
     /**
      * ノードリストを渡すテスト
@@ -81,27 +82,9 @@ public class DemosActivity extends com.st.BlueSTSDK.gui.DemosActivity {
      * @return
      */
     public static Intent getStartIntent(Context c, List<Node> nodes, boolean resetCache) {
-        Intent i = new Intent(c, DemosActivity.class);
+        Intent i = new Intent(c, AccDemosActivity.class);
         setIntentParameters(i,nodes,resetCache);
         return i;
-    }//getStartIntent
-
-    /**
-     * create an intent for start this activity
-     *
-     * @param c          context used for create the intent
-     * @param node       node to use for the demo
-     * @param resetCache true if you want to reload the service and characteristics from the device
-     * @return intent for start a demo activity that use the node as data source
-     */
-    public static Intent getStartIntent(Context c, @NonNull Node node, boolean resetCache) {
-        Intent i = new Intent(c, DemosActivity.class);
-        setIntentParameters(i, node, resetCache);
-        return i;
-    }//getStartIntent
-
-    public static Intent getStartIntent(Context c, @NonNull Node node) {
-        return getStartIntent(c, node, false);
     }//getStartIntent
 
     /**
@@ -111,26 +94,7 @@ public class DemosActivity extends com.st.BlueSTSDK.gui.DemosActivity {
     @SuppressWarnings("unchecked")
     private final static Class<? extends DemoFragment> ALL_DEMOS[] = new Class[]{
 
-            EnvironmentalSensorsFragment.class,
-            MemsSensorFusionFragment.class,
-            PlotFeatureFragment.class,
-            CloudLogFragment.class,
-            ActivityRecognitionFragment.class,
-            CarryPositionFragment.class,
-            ProximityGestureRecognitionFragment.class,
-            MemsGestureRecognitionFragment.class,
-            PedometerFragment.class,
-            AccEventFragment.class,
-            SwitchFragment.class,
-            BlueVoiceFragment.class,
-            BeamformingFragment.class,
-            SourceLocFragment.class,
-            HearRateFragment.class,
-            MotionIntensityFragment.class,
-            CompassFragment.class,
-            //MultipleLogFragment.class,
-            NodeStatusFragment.class,
-            //FeatureDebugFragment.class
+            AccPlotFeatureFragment.class,
     };
 
     @SuppressWarnings("unchecked")

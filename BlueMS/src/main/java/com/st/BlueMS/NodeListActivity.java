@@ -56,7 +56,13 @@ public class NodeListActivity extends com.st.BlueSTSDK.gui.NodeListActivity {
         if(n.getType()== Node.Type.STEVAL_WESU1)
             startActivity(DemosActivityWesu.getStartIntent(this,n,clearCacheIsSelected()));
         else
-            startActivity(DemosActivity.getStartIntent(this,n,clearCacheIsSelected()));
+            startActivity(DemosActivity.getStartIntent(this,mManager.getNodes(),clearCacheIsSelected()));
+            //startActivity(DemosActivity.getStartIntent(this,n,clearCacheIsSelected()));
     }
 
+    @Override
+    protected void onStartAccDemo() {
+        startActivity(AccDemosActivity.getStartIntent(this,mManager.getNodes(),clearCacheIsSelected()));
+
+    }
 }//NodeListActivity

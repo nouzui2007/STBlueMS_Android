@@ -37,21 +37,41 @@
 
 package com.st.BlueMS;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.st.BlueSTSDK.gui.AboutActivity;
 import com.st.BlueSTSDK.gui.thirdPartyLibLicense.LibLicense;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.concurrent.Exchanger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Entry point activity, it show a full screen image for 2s and than the button for start the
  * scan or go in the privacy_policy/help activity
  */
 public class MainActivity extends com.st.BlueSTSDK.gui.MainActivity {
+
+    private static final String TAG = MainActivity.class.getName();
 
     private static final ArrayList<LibLicense> LIB_LICENSES = new ArrayList<>();
     static {
@@ -71,6 +91,8 @@ public class MainActivity extends com.st.BlueSTSDK.gui.MainActivity {
 
     private static final String ABOUT_PAGE_URL = "file:///android_asset/about.html";
 
+    private Socket mSocket;
+
     @Override
     public void startScanBleActivity(View view) {
         startActivity(new Intent(this, NodeListActivity.class));
@@ -86,5 +108,58 @@ public class MainActivity extends com.st.BlueSTSDK.gui.MainActivity {
     public URL getPrivacyPolicyUrl(){
         return null;
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        try {
+
+            DemoApplication app = (DemoApplication)getApplication();
+            mSocket = app.getSocket();
+            mSocket.on(Socket.EVENT_CONNECT,onConnect);
+            mSocket.on("published", onPublished);
+            mSocket.connect();
+
+            mSocket.emit("connected", "nouzui2007");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this,
+                            "コネクト", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onPublished = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this,
+                            "Published", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
+
 
 }

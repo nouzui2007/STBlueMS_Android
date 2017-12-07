@@ -139,5 +139,8 @@ dependencies {
 
     //androidTestCompile ('com.crittercism.dexmaker:dexmaker-mockito:1.4');
     //androidTestCompile ("com.crittercism.dexmaker:dexmaker-dx:1.4");
-
+    compile ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 }
